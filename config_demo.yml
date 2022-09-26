@@ -1,0 +1,36 @@
+# sender's information:
+sender_information:
+  address: '123@abc.xyz'
+  password: '******'
+  alias: 'Alice'
+
+# receivers' information:
+receivers_information:
+  # CAUTION: match the addresses and alias names:
+  address:
+    - '456@def.xyz'
+    - '789@ghi.xyz'
+  alias:
+    - 'Bob'
+    - # leave it empty is OK
+
+# content of e-mail:
+mail:
+  subject: '[NOTIFICATION]'
+  body: 'Hello!'
+
+# SMTP server information:
+server_information:
+  address: 'smtp.abc.xyz'
+  port: 25
+
+# options for sending e-mails repeatedly:
+#####  OPTIONAL  #####
+resend_options:
+  enable: False # True - enable, False - disable
+  # the following settings only have an effect when 'enable = True'
+  times: 3 # number of times to send
+  enable_random_interval: True # True - enable, False - disable
+  min_interval: 1 # minimum interval(seconds), this setting only has an effect when 'enable_random_interval = True'
+  max_interval: 10 # maximum interval(seconds), this setting only has an effect when 'enable_random_interval = True'
+  fixed_interval: 5 # assign a fixed interval(seconds), this setting only has an effect when 'enable_random_interval = False'
