@@ -5,7 +5,7 @@
 @Author: Golevka2001<gol3vka@163.com>
 @Version: 2.0.0
 @Created Date: 2022/05/16
-@Last Modified Date: 2022/09/26
+@Last Modified Date: 2022/09/27
 '''
 # TODO: make adding appendix available. (MIMEMultipart)
 # TODO: now all receivers are display in the field 'TO', make them hidden.
