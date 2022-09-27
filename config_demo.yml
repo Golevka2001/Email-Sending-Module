@@ -2,17 +2,18 @@
 sender_information:
   address: '123@abc.xyz'
   password: '******'
-  alias: 'Alice'
+  alias: 'Alice'  # 'alias' is optional, you can delete it
 
 # receivers' information:
 receivers_information:
-  # CAUTION: match the addresses and alias names:
+  # if only one receiver: use 'str' or 'list'
+  # if more than one receivers: use 'list', remember to match the addresses and alias names:
   address:
     - '456@def.xyz'
     - '789@ghi.xyz'
-  alias:
+  alias:  # 'alias' is optional, you can delete it
     - 'Bob'
-    - # leave it empty is OK
+    -  # you can leave it blank
 
 # content of e-mail:
 mail:
@@ -24,13 +25,12 @@ server_information:
   address: 'smtp.abc.xyz'
   port: 25
 
-# options for sending e-mails repeatedly:
-#####  OPTIONAL  #####
+# [OPTIONAL] options for sending e-mails repeatedly:
 resend_options:
   enable: False # True - enable, False - disable
-  # the following settings only have an effect when 'enable = True'
+  # the following settings only have an effect when 'enable' = True
   times: 3 # number of times to send
   enable_random_interval: True # True - enable, False - disable
-  min_interval: 1 # minimum interval(seconds), this setting only has an effect when 'enable_random_interval = True'
-  max_interval: 10 # maximum interval(seconds), this setting only has an effect when 'enable_random_interval = True'
-  fixed_interval: 5 # assign a fixed interval(seconds), this setting only has an effect when 'enable_random_interval = False'
+  min_interval: 1 # minimum interval(seconds), this setting only has an effect when 'enable_random_interval' = True
+  max_interval: 10 # maximum interval(seconds), this setting only has an effect when 'enable_random_interval' = True
+  fixed_interval: 5 # assign a fixed interval(seconds), this setting only has an effect when 'enable_random_interval' = False
