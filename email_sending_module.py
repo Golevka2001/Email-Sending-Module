@@ -8,6 +8,7 @@
 @Last Modified Date: 2022/09/26
 '''
 # TODO: make adding appendix available. (MIMEMultipart)
+# TODO: now all receivers are display in the field 'TO', make them hidden.
 
 import os
 import random
@@ -154,7 +155,7 @@ class EmailSendingModule:
         message['Subject'] = Header(mail['subject'], 'utf-8').encode()
         message['From'] = from_user
         message['To'] = ','.join(to_users_list)
-        # FIX THIS: now display all receivers in the list, try to display one receiver further.
+
         try:
             # send e-mails:
             smtp = smtplib.SMTP_SSL(server['address'])
