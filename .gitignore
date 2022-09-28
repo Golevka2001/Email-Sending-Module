@@ -4,7 +4,7 @@ __pycache__/
 *$py.class
 
 # Local testing files
-LOCAL-*.*
+L-*.*
 
 # C extensions
 *.so
