@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 '''email_sending_module.py: a module used to send e-mails,\
     providing more convenience.
-@Author: Golevka2001<gol3vka@163.com>
+@Author: Gol3vka<gol3vka@163.com>
 @Version: 2.1.1
 @Created Date: 2022/05/16
 @Last Modified Date: 2022/09/27
