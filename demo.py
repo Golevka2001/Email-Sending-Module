@@ -3,7 +3,7 @@
 '''demo.py: a demonstrate of the e-mail sending module.
 @Author: Gol3vka<gol3vka@163.com>
 @Created Date: 2022/05/16
-@Last Modified Date: 2022/09/30
+@Last Modified Date: 2022/10/03
 '''
 
 from email_sending_module import EmailSendingModule
@@ -25,7 +25,7 @@ sender_information = {
     'password': '******',
     #'alias': 'Alice'  # 'alias 'can be deleted from this dict
 }
-receivers_information = {
+recipients_information = {
     'address': ['456@def.xyz', '789@ghi.xyz'],
     'alias': ['Bob', '']  # match the 2 lists
 }
@@ -33,7 +33,7 @@ mail = {'subject': '[NOTIFICATION]', 'body': 'Hello!'}
 server_information = {'address': 'smtp.abc.xyz', 'port': 25}
 # 'resend_options' is optional
 email_2 = EmailSendingModule()
-email_2.config.load_from_parameters(sender_information, receivers_information,
+email_2.config.load_from_parameters(sender_information, recipients_information,
                                     mail, server_information)
 ''' Send e-mails '''
 result_1 = email_1.send_emails()

@@ -5,10 +5,10 @@
 @Author: Gol3vka<gol3vka@163.com>
 @Version: 2.1.1
 @Created Date: 2022/05/16
-@Last Modified Date: 2022/09/27
+@Last Modified Date: 2022/10/03
 '''
 # TODO: make adding appendix available. (MIMEMultipart)
-# TODO: now all receivers are display in the field 'TO', make them hidden.
+# TODO: now all recipients are display in the field 'TO', make them hidden.
 
 import os
 import random
@@ -32,7 +32,7 @@ class EmailSendingModule:
     Functions:
         __init__()
         send_emails()
-        _send_helper
+        _send_helper()
         _format_address()
     '''
 
@@ -42,13 +42,15 @@ class EmailSendingModule:
             '''Configuration of e-mail sending module.
 
             Vars:
-                sender (dict): {'address'(str), 'password'(str), [OPTIONAL]'alias'(str)}
-                receivers (dict): {'address'(str or list), [OPTIONAL]'alias'(str or list)}
+                sender (dict): {'address'(str), 'password'(str),\
+                    [OPTIONAL]'alias'(str)}
+                recipients (dict): {'address'(str or list),\
+                    [OPTIONAL]'alias'(str or list)}
                 mail (dict): {'subject'(str), 'body'(str)}
-                serve (dict): {'address'(str), 'port'(int)}
+                server (dict): {'address'(str), 'port'(int)}
                 [OPTIONAL]resend (dict): {'enable'(bool), 'times'(int),\
                     'enable_random_interval'(bool), 'min_interval'(int),\
-                        'max_interval'(int), 'fixed_interval'(int)}
+                    'max_interval'(int), 'fixed_interval'(int)}
 
             Functions:
                 load_from_file()
@@ -71,7 +73,7 @@ class EmailSendingModule:
                         config_file.close()
                     # assign:
                     self.sender = config['sender_information']
-                    self.receivers = config['receivers_information']
+                    self.recipients = config['recipients_information']
                     self.mail = config['mail']
                     self.server = config['server_information']
                     # 'resend_options' is optional, set a default value:
@@ -83,26 +85,27 @@ class EmailSendingModule:
             def load_from_parameters(
                     self,
                     sender_information: dict,
-                    receivers_information: dict,
+                    recipients_information: dict,
                     mail: dict,
                     server_information: dict,
                     resend_options: dict = {'enable': False}) -> None:
                 '''Load configuration from these parameters.
 
                 Args:
-                    sender (dict): {'address'(str), 'password'(str),\
-                        [OPTIONAL]'alias'(str)}
-                    receivers (dict): {'address'(str or list),\
+                    sender_information (dict): {'address'(str),\
+                        'password'(str), [OPTIONAL]'alias'(str)}
+                    recipients_information (dict): {'address'(str or list),\
                         [OPTIONAL]'alias'(str or list)}
                     mail (dict): {'subject'(str), 'body'(str)}
-                    serve (dict): {'address'(str), 'port'(int)}
-                    [OPTIONAL]resend (dict): {'enable'(bool), 'times'(int),\
-                        'enable_random_interval'(bool), 'min_interval'(int),\
-                            'max_interval'(int), 'fixed_interval'(int)}
+                    server_information (dict): {'address'(str), 'port'(int)}
+                    [OPTIONAL]resend_options (dict): {'enable'(bool),\
+                        'times'(int), 'enable_random_interval'(bool),\
+                        'min_interval'(int), 'max_interval'(int),\
+                        'fixed_interval'(int)}
                 '''
                 # assign:
                 self.sender = sender_information
-                self.receivers = receivers_information
+                self.recipients = recipients_information
                 self.mail = mail
                 self.server = server_information
                 self.resend = resend_options
@@ -129,23 +132,23 @@ class EmailSendingModule:
             times_ = 1
 
         for i in range(times_):
-            if self._send_helper(self.config.sender, self.config.receivers,
+            if self._send_helper(self.config.sender, self.config.recipients,
                                  self.config.mail, self.config.server):
-                count[0] += len(self.config.receivers['address'])
+                count[0] += len(self.config.recipients['address'])
             else:
-                count[1] += len(self.config.receivers['address'])
+                count[1] += len(self.config.recipients['address'])
             if times_ > 1:
                 time.sleep(interval)
         return count  # count = [<success_count>, <failure_count>]
 
-    def _send_helper(self, sender: dict, receivers: dict, mail: dict,
+    def _send_helper(self, sender: dict, recipients: dict, mail: dict,
                      server: dict) -> bool:
-        '''Send e-mails to receivers in the list separately.
+        '''Send e-mails to recipients in the list separately.
 
         Args:
             sender (dict): ['address'(str), 'password'(str),\
                 [OPTIONAL]'alias'(str)]
-            receivers (dict): ['address'(str_list),\
+            recipients (dict): ['address'(str_list),\
                 [OPTIONAL]'alias'(str_list)]
             mail (dict): ['subject'(str), 'body'(str)]
             serve (dict): ['address'(str), 'port'(int)]
@@ -160,30 +163,30 @@ class EmailSendingModule:
         else:
             from_user = self._format_address(sender['address'])
 
-        # format addresses of receivers
+        # format addresses of recipients
         to_users_list = list()
-        if isinstance(receivers['address'], str):
-            # only one receiver:
-            if 'alias' in receivers:
+        if isinstance(recipients['address'], str):
+            # only one recipient:
+            if 'alias' in recipients:
                 to_users_list.append(
-                    self._format_address(receivers['address'],
-                                         receivers['alias']))
+                    self._format_address(recipients['address'],
+                                         recipients['alias']))
             else:
                 to_users_list.append(self._format_address(
-                    receivers['address']))
-        elif isinstance(receivers['address'], list):
-            # only one or more than one receiver:
-            if 'alias' in receivers:
-                if not len(receivers['address']) == len(receivers['alias']):
+                    recipients['address']))
+        elif isinstance(recipients['address'], list):
+            # only one or more than one recipient:
+            if 'alias' in recipients:
+                if not len(recipients['address']) == len(recipients['alias']):
                     raise Exception(
                         'Address list and alias name list do not match!')
                 else:
-                    for address_, alias_ in zip(receivers['address'],
-                                                receivers['alias']):
+                    for address_, alias_ in zip(recipients['address'],
+                                                recipients['alias']):
                         to_users_list.append(
                             self._format_address(address_, alias_))
             else:
-                for address_ in receivers['address']:
+                for address_ in recipients['address']:
                     to_users_list.append(self._format_address(address_))
 
         # compose e-mail:

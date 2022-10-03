@@ -1,36 +1,36 @@
 # sender's information:
 sender_information:
-  address: '123@abc.xyz'
-  password: '******'
-  alias: 'Alice'  # 'alias' is optional, you can delete it
+  address: '123@abc.xyz'  # e-mail address of sender
+  password: '******'  # e-mail password of sender
+  alias: 'Alice'  # alias of sender(optional, you can delete it)
 
-# receivers' information:
-receivers_information:
-  # if only one receiver: use 'str' or 'list'
-  # if more than one receivers: use 'list', remember to match the addresses and alias names:
-  address:
+# recipients' information:
+recipients_information:
+  # if only one recipient: use 'str' or 'list'
+  # if more than one: use 'list', remember to match the addresses and alias names:
+  address:  # e-mail address of recipients
     - '456@def.xyz'
     - '789@ghi.xyz'
-  alias:  # 'alias' is optional, you can delete it
+  alias:  # alias of recipient(optional, you can delete it)
     - 'Bob'
     -  # you can leave it blank
 
-# content of e-mail:
+# content of e-mails:
 mail:
-  subject: '[NOTIFICATION]'
-  body: 'Hello!'
+  subject: '[NOTIFICATION]'  # subject of e-mails
+  body: 'Hello!'  # body of e-mails
 
-# SMTP server information:
+# SMTP server's information:
 server_information:
-  address: 'smtp.abc.xyz'
-  port: 25
+  address: 'smtp.abc.xyz'  # address of the SMTP server
+  port: 25  # port number of the SMTP server
 
-# [OPTIONAL] options for sending e-mails repeatedly:
+# options for sending e-mails repeatedly(optional, you can delete it):
 resend_options:
-  enable: False # True - enable, False - disable
-  # the following settings only have an effect when 'enable' = True
-  times: 3 # number of times to send
-  enable_random_interval: True # True - enable, False - disable
-  min_interval: 1 # minimum interval(seconds), this setting only has an effect when 'enable_random_interval' = True
-  max_interval: 10 # maximum interval(seconds), this setting only has an effect when 'enable_random_interval' = True
-  fixed_interval: 5 # assign a fixed interval(seconds), this setting only has an effect when 'enable_random_interval' = False
+  enable: False  # True - enable, False - disable
+  # the following settings only have an effect when 'enable' is True
+  times: 5  # number of times to send
+  enable_random_interval: True  # True - enable, False - disable
+  min_interval: 10  # minimum interval(seconds), this setting only has an effect when 'enable_random_interval' is True
+  max_interval: 15  # maximum interval(seconds), this setting only has an effect when 'enable_random_interval' is True
+  fixed_interval: 3  # assign a fixed interval(seconds), this setting only has an effect when 'enable_random_interval' is False
