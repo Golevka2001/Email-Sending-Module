@@ -161,6 +161,10 @@ print('Success:', result[0], '\nFailure:', result[1])
 
 ## Change Log
 
+**2022-10-26:**
+
+1. Fix "count".
+
 **2022-09-27:**
 
 1. In the recipients' information part, 'str' and 'list' both can be used;
