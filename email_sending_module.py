@@ -3,9 +3,9 @@
 '''email_sending_module.py: a module used to send e-mails,\
     providing more convenience.
 @Author: Gol3vka<gol3vka@163.com>
-@Version: 2.1.1
+@Version: 2.1.2
 @Created Date: 2022/05/16
-@Last Modified Date: 2022/10/03
+@Last Modified Date: 2022/10/26
 '''
 # TODO: make adding appendix available. (MIMEMultipart)
 # TODO: now all recipients are display in the field 'TO', make them hidden.
@@ -134,9 +134,17 @@ class EmailSendingModule:
         for i in range(times_):
             if self._send_helper(self.config.sender, self.config.recipients,
                                  self.config.mail, self.config.server):
-                count[0] += len(self.config.recipients['address'])
+                if isinstance(self.config.recipients['address'], list):
+                    count[0] += len(self.config.recipients['address'])
+                else:
+                    count[0] += 1
+                print('['+str(count[0]+count[1])+'] Successful')
             else:
-                count[1] += len(self.config.recipients['address'])
+                if isinstance(self.config.recipients['address'], list):
+                    count[1] += len(self.config.recipients['address'])
+                else:
+                    count[1] += 1
+                print('['+str(count[0]+count[1])+'] Failed')
             if times_ > 1:
                 time.sleep(interval)
         return count  # count = [<success_count>, <failure_count>]
@@ -172,8 +180,8 @@ class EmailSendingModule:
                     self._format_address(recipients['address'],
                                          recipients['alias']))
             else:
-                to_users_list.append(self._format_address(
-                    recipients['address']))
+                to_users_list.append(
+                    self._format_address(recipients['address']))
         elif isinstance(recipients['address'], list):
             # only one or more than one recipient:
             if 'alias' in recipients:
